@@ -1,8 +1,4 @@
 require "import"
-import "android.app.*"
-import "android.os.*"
-import "android.widget.*"
-import "android.view.*"
 
 local xposed = require "LuaXHook" {
   lua = "the basic hook support" 
