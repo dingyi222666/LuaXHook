@@ -17,7 +17,6 @@ xposed.findAndHookFunction(dump) {
 }
 
 
-
 xposed
 .replaceFunction("print", function(oldFunction,oldTable,...)
   oldFunction("replace", ...)

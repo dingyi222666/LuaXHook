@@ -42,5 +42,12 @@ function _M.hookFunction(targetField, targetTable, isNeedSelf) end
 ---@param targetField any
 ---@param targetFunction xposedApiReplaceFunctionFunc
 ---@param targetTable table|nil
-function _M.replaceFunction(targetField,targetFunction,targetTable) end
+function _M.replaceFunction(targetField, targetFunction, targetTable) end
 
+local addToApiFunctions = {}
+
+for name, v in pairs(_M) do
+  table.insert(addToApiFunctions, name)
+end
+
+return addToApiFunctions
