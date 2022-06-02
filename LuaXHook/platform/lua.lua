@@ -8,6 +8,12 @@ base.setTableField = function(tab, field, target)
 end
 
 
+base.wrapperFunction = function(oldFunction, oldTable, targetFunction)
+  return function(...)
+    targetFunction(oldFunction, oldTable, ...)
+  end
+end
+
 base.findAndHookFunction = function(targetFunction, targetTable, isNeedSelf)
   isNeedSelf = isNeedSelf or false
   targetTable = targetTable or _G
@@ -19,10 +25,7 @@ end
 function base.replaceFunction(targetField, targetFunction, targetTable)
   targetTable = targetTable or _G
   local oldFunction = rawget(targetTable, targetField)
-  local wrapperTargetFunction = function(...)
-    return targetFunction(oldFunction,targetTable, ...)
-  end
-  rawset(targetTable, targetField, wrapperTargetFunction)
+  rawset(targetTable, targetField, base.wrapperFunction(oldFunction, targetTable, targetFunction))
 end
 
 function base.hookFunction(targetField, targetTable, isNeedSelf)
@@ -67,8 +70,12 @@ base.init = function(_, api)
     if base.utils.find(addToApiFunction, k) ~= nil then
       api.addApi(k, v)
     end
-
   end
+
+
+  --@TODO hook部分函数隐藏该框架
+  --base.baseHiddenXposed()
+
 end
 
 return base
