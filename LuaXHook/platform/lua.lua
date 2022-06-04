@@ -8,6 +8,9 @@ base.setTableField = function(tab, field, target)
 end
 
 
+base.generateListenerTable = function (originTable)
+end
+
 base.wrapperFunction = function(oldFunction, oldTable, targetFunction)
   return function(...)
     targetFunction(oldFunction, oldTable, ...)
@@ -34,7 +37,7 @@ function base.hookFunction(targetField, targetTable, isNeedSelf)
   local targetFunction = targetTable[targetField]
   return function(tab)
     base.setTableField(targetTable, targetField, function(...)
-      local results = { (tab.afterCall or function() end)(targetFunction, targetTable, ...) }
+      local results = { (tab.afterCall or function(t, f, ...) end)(targetFunction, targetTable, ...) }
       if #results == 0 then
         results = { ... }
       end
