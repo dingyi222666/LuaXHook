@@ -60,19 +60,18 @@ base.generateListenerTable = function(originTable)
     local fakeOriginTable, fieldName, value = ...
     local eventFunction = target_metatable.getFieldEvent(fieldName)
     if eventType == 1 then
-      
-      local result = old_metatable_event or (function(_, fieldName) return rawget(originTable, fieldName) end)(originTable, fieldName)
+      local targetValue = rawget(originTable, fieldName)
+      local result = old_metatable_event or (function(_, fieldName) return targetValue end)(originTable, fieldName)
       if (eventFunction ~= nil) then
-        result =  eventFunction(fieldName, rawget(originTable,
-          fieldName), originTable)
+        result = eventFunction(fieldName, targetValue, originTable)
       end
       return result
     else
+      (old_metatable_event or (function(originTable, fieldName, value) rawset(originTable, fieldName, value) end))(originTable, fieldName, value)
       if (eventFunction ~= nil) then
-        return eventFunction(fieldName, rawget(originTable,
+        eventFunction(fieldName, rawget(originTable,
           fieldName), value, originTable)
       end
-      return old_metatable_event or (function(originTable, fieldName, value) rawset(originTable, fieldName, value) end)(originTable, fieldName, value)
     end
   end
 
