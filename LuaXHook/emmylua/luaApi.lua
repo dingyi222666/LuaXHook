@@ -21,6 +21,23 @@ function xposedApiFunctionHookParams.afterCall(f, t, ...) end
 
 ---@alias xposedApiReplaceFunctionFunc fun(hookedFunction:function,hookedTable:table,params:...)
 
+---@class xposedApi.xposedApiListenerPropertyParams
+local xposedApiListenerPropertyParams = {}
+
+
+--- Call this function when the target property in the target table is get.
+---@param t table @The table of the property.
+---@param n string @The name of the property.
+---@param v any @The value of the property.
+function xposedApiListenerPropertyParams.get(n, v, t) end
+
+--- Call this function when the target property in the target table is set.
+---@param t table @The table of the property.
+---@param n string @The name of the property.
+---@param o any @The old value of the property.
+---@param e any @The new value of the property.
+function xposedApiListenerPropertyParams.set(n, o, e, t) end
+
 --- Find targetFunction in the targetTable And then hook it.
 --- The `isNeedSelf` param is used to determine whether the targetFunction need self param.
 ---@param targetFunction function
@@ -43,6 +60,14 @@ function _M.hookFunction(targetField, targetTable, isNeedSelf) end
 ---@param targetFunction xposedApiReplaceFunctionFunc
 ---@param targetTable table|nil
 function _M.replaceFunction(targetField, targetFunction, targetTable) end
+
+--- Listener the target property in the target table.
+---@param fieldName any
+---@param targetTable table|nil
+---@param targetFieldTable xposedApi.xposedApiListenerPropertyParams
+---@param targetTablefieldName any
+function _M.listenerProperty(fieldName, targetFieldTable, targetTablefieldName, targetTable)
+end
 
 local addToApiFunctions = {}
 

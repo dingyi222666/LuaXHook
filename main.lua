@@ -7,7 +7,7 @@ local xposed = require "LuaXHook" {
 
 dump = dump or function(any) end
 
-xposed.findAndHookFunction(dump) {
+--[[ xposed.findAndHookFunction(dump) {
   beforeCall = function(f, t, ...)
     print("beforeHook", f, t, ...)
   end,
@@ -15,11 +15,28 @@ xposed.findAndHookFunction(dump) {
     print("afterHook", f, t, ...)
   end
 }
+ ]]
 
-
-xposed
+--[[ xposed
 .replaceFunction("print", function(oldFunction,oldTable,...)
   oldFunction("replace", ...)
-end)
+end) ]]
+
+a = { "1", "2", "3" }
+
+xposed
+.listenerProperty(1,{
+  get = function (name, value)
+    print("get", name, value)
+    return value
+  end,
+  set = function (name, oldValue, newValue)
+    print("set", name, oldValue, newValue)
+  end
+},"a")
 
 print(dump(xposed))
+
+local s = a[1]
+a[1] = "4"
+print(a[1])
